@@ -1,9 +1,9 @@
-import { Users } from "../modules/comment.model.js";
+import { UsersModel } from "../../modules/user-model.js";
 
 export const createUser = async (req, res) => {
   const { username, password, firstName, lastName, age } = req.body;
   try {
-    const users = new Users({
+    const users = new UsersModel({
       username: username,
       password: password,
       firstName: firstName,

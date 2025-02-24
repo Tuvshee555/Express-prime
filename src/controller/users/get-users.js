@@ -1,7 +1,11 @@
-import { Users } from "../modules/comment.model.js";
+import { UsersModel } from "../../modules/user-model.js";
 
 export const getUsers = async (req, res) => {
-  const rawUSerdata =await Users.find()
-  const users = rawUSerdata;
-  res.send(users);
+  try {
+    const users = await UsersModel.find();
+
+    res.status(200).send(users);
+  } catch (err) {
+    res.status(500).send(`Error while getting users ${err}`)
+  }
 };

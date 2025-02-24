@@ -27,6 +27,10 @@ app.use(cors());
 app.use("/users", userRouter);
 app.use("/catagory", userRouter);
 
+app.get("/", (req, res) => {
+  res.send("API IS WORKING")
+})
+
 app.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);
 });
