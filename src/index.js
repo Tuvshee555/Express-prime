@@ -24,8 +24,8 @@ connectDb();
 app.use(express.json());
 app.use(cors());
 
-app.use("/users", userRouter); 
-app.use("/catagory", userRouter)
+app.use("/users", userRouter);
+app.use("/catagory", userRouter);
 
 app.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);
