@@ -1,14 +1,11 @@
 import { UsersModel } from "../../modules/user-model.js";
 
 export const createUser = async (req, res) => {
-  const { username, password, firstName, lastName, age } = req.body;
+  const { email, password } = req.body;
   try {
     const users = new UsersModel({
-      username: username,
+      email: email,
       password: password,
-      firstName: firstName,
-      lastName: lastName,
-      age: age,
     });
     res.send(users);
     users.save();

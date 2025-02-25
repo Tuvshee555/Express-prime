@@ -1,3 +1,5 @@
+"use client"
+
 import fs from "fs";
 import bcrypt from "bcrypt";
 
@@ -5,9 +7,9 @@ export const loginUser = async (req, res) => {
   const rawUserData = fs.readFileSync("src/db/users.json");
   const users = JSON.parse(rawUserData);
 
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  const user = users.find((user) => user.username === username);
+  const user = users.find((user) => user.email === email);
 
   if (!user) {
     return res.status(400).json({
@@ -32,7 +34,7 @@ export const loginUser = async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       age: user.age,
-      username: user.username,
+      email: user.email,
     },
   });
 };

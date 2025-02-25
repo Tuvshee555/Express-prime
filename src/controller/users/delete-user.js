@@ -15,3 +15,4 @@ export const deleteUser = async (req, res) => {
       .json({ success: false, message: "Error deleting user" });
   }
 };
+
