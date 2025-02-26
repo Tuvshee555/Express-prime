@@ -10,6 +10,7 @@ export const createUser = async (req, res) => {
     const user = new UsersModel({
       email: email,
       password: hashedPassword,
+      role: "ADMIN"
     });
 
     await user.save(); 

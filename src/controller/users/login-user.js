@@ -1,8 +1,17 @@
 import { compare } from "bcrypt";
+import jwt from "jsonwebtoken";
 import { UsersModel } from "../../modules/users.model.js";
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
+
+  // Check if email and password are provided
+  if (!email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: "Email and password are required!",
+    });
+  }
 
   try {
     const user = await UsersModel.findOne({ email });
@@ -14,6 +23,7 @@ export const loginUser = async (req, res) => {
       });
     }
 
+    // Check if the password matches
     const passwordMatches = await compare(password, user.password);
     if (!passwordMatches) {
       return res.status(400).json({
@@ -22,12 +32,29 @@ export const loginUser = async (req, res) => {
       });
     }
 
+    // Optional: Check if the user is verified
+    if (!user.isVerified) {
+      return res.status(403).json({
+        success: false,
+        message: "Please verify your email before logging in.",
+      });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user._id, role: user.role },
+      "your_secret_key",
+      { expiresIn: "1h" }
+    );
+
     return res.status(200).json({
       success: true,
       message: "Logged in successfully!",
       user: {
         email: user.email,
+        role: user.role,
       },
+      token,
     });
   } catch (error) {
     console.error("Login error:", error);
