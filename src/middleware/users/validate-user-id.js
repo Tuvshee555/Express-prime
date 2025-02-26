@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { UsersModel } from "../../modules/user-model.js";
+import { UsersModel } from "../../modules/users.model.js";
 
 export const validateUserId = async (req, res, next) => {
   const { id } = req.body;

@@ -1,40 +1,40 @@
-"use client"
-
-import fs from "fs";
-import bcrypt from "bcrypt";
+import { compare } from "bcrypt";
+import { UsersModel } from "../../modules/users.model.js";
 
 export const loginUser = async (req, res) => {
-  const rawUserData = fs.readFileSync("src/db/users.json");
-  const users = JSON.parse(rawUserData);
-
   const { email, password } = req.body;
 
-  const user = users.find((user) => user.email === email);
+  try {
+    const user = await UsersModel.findOne({ email });
 
-  if (!user) {
-    return res.status(400).json({
+    if (!user || !user.password) {
+      return res.status(400).json({
+        success: false,
+        message: "This account does not exist!",
+      });
+    }
+
+    const passwordMatches = await compare(password, user.password);
+    if (!passwordMatches) {
+      return res.status(400).json({
+        success: false,
+        message: "Incorrect password!",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Logged in successfully!",
+      user: {
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({
       success: false,
-      message: "This account does not exist!! ",
+      message: "Server error",
+      error: error.message,
     });
   }
-
-  const passwordMatches = await bcrypt.compare(password, user.password);
-
-  if (!passwordMatches) {
-    return res.status(400).json({
-      success: false,
-      message: "Incorrect password!",
-    });
-  }
-
-  return res.status(200).json({
-    success: true,
-    message: "Loged in succesfully!",
-    user: {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      age: user.age,
-      email: user.email,
-    },
-  });
 };

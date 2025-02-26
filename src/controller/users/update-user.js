@@ -1,4 +1,4 @@
-import { UsersModel } from "../../modules/user-model.js";
+import { UsersModel } from "../../modules/users.model.js";
 
 export const updateUser = async (req, res) => {
   const { id } = req.body;

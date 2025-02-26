@@ -1,13 +1,20 @@
 import express from "express";
 import mongoose from "mongoose";
-import { userRouter } from "./routers/user-router.js";
+import { userRouter } from "./routers/user.router.js";
+import { orderRouter } from "./routers/Order.router.js";
+import { FoodRouter } from "./routers/Food.router.js";
+import { categoryRouter } from "./routers/Category.router.js";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 import cors from "cors";
 
-const mongoURI =
-  "mongodb+srv://tuvshee894:pMGouSOSywNnqc7d@cluster0.vds8d.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0";
+// const mongoURI =
+// "mongodb+srv://tuvshee894:pMGouSOSywNnqc7d@cluster0.vds8d.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0";
 
-const app = express();
-const port = 4000;
+
+const mongoURI = process.env.DATA_BASE_CONNECT_URL;
 
 const connectDb = async () => {
   try {
@@ -21,15 +28,15 @@ const connectDb = async () => {
 
 connectDb();
 
+const app = express();
+const port = 4000;
+
 app.use(express.json());
 app.use(cors());
-
-app.use("/users", userRouter);
-app.use("/catagory", userRouter);
-
-app.get("/", (req, res) => {
-  res.send("API IS WORKING")
-})
+app.use("/food", FoodRouter);
+app.use("/order", orderRouter);
+app.use("/user", userRouter);
+app.use("/category", categoryRouter);
 
 app.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);
