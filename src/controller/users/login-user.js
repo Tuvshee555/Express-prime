@@ -5,7 +5,6 @@ import { UsersModel } from "../../modules/users.model.js";
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
-  // Check if email and password are provided
   if (!email || !password) {
     return res.status(400).json({
       success: false,
@@ -23,7 +22,6 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    // Check if the password matches
     const passwordMatches = await compare(password, user.password);
     if (!passwordMatches) {
       return res.status(400).json({
@@ -32,7 +30,6 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    // Optional: Check if the user is verified
     if (!user.isVerified) {
       return res.status(403).json({
         success: false,

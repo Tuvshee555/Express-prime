@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import { userRouter } from "./routers/user.router.js";
 import { orderRouter } from "./routers/Order.router.js";
 import { FoodRouter } from "./routers/Food.router.js";
-import { categoryRouter } from "./routers/Category.router.js";
+import { categoryRouter } from "./routers/category.router.js";
+import { items } from "./routers/items.router.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -12,7 +13,6 @@ import cors from "cors";
 
 // const mongoURI =
 // "mongodb+srv://tuvshee894:pMGouSOSywNnqc7d@cluster0.vds8d.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0";
-
 
 const mongoURI = process.env.DATA_BASE_CONNECT_URL;
 
@@ -37,6 +37,7 @@ app.use("/food", FoodRouter);
 app.use("/order", orderRouter);
 app.use("/user", userRouter);
 app.use("/category", categoryRouter);
+app.use("/items", items);
 
 app.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);

@@ -1,24 +1,21 @@
-import mongoose from "mongoose";
 import { UsersModel } from "../../modules/users.model.js";
 
 export const validateUserId = async (req, res, next) => {
-  const { id } = req.body;
+  const { _id } = req.body;
 
   try {
-    if (!id) {
-      res
-        .status(303)
-        .json({ success: false, message: "id not provided invalid input" });
-    } else {
-      const user = await UsersModel.findById(new mongoose.Types.ObjectId(id));
-
-      if (!user) {
-        res.status(404).json({ success: false, message: "Users not found" });
-      } else {
-        next();
-      }
+    if (!_id) {
+      return res.status(400).json({ success: false, message: "id not provided, invalid input" });
     }
+
+    const user = await UsersModel.findById(_id);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    return next();
   } catch (error) {
-    res.status(500).json({ success: false, message: `error, ${error}` });
+    return res.status(500).json({ success: false, message: `Error: ${error.message}` });
   }
 };

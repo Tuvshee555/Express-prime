@@ -6,7 +6,7 @@ const foodSchema = new mongoose.Schema({
   Image: { type: String, require: true },
   address: { type: String },
   ingredients: { type: String, require: true },
-  catagory: { type: mongoose.Types.ObjectId, ref: "catagories" },
+  category: { type: mongoose.Types.ObjectId, ref: "catagories" },
 });
 
 export const FoodModel = mongoose.model("food", foodSchema);
