@@ -1,10 +1,10 @@
 import { CategoriesModel } from "../../modules/categories.model.js";
 
 export const deleteCatagories = async (req, res) => {
-  const { id } = req.body;
+  const { _id } = req.body;
 
   try {
-    await CategoriesModel.findByIdAndDelete(id);
+    await CategoriesModel.findByIdAndDelete(_id);
 
     res
       .status(200)

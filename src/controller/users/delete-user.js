@@ -2,10 +2,10 @@ import { UsersModel } from "../../modules/users.model.js";
 
 
 export const deleteUser = async (req, res) => {
-  const { id } = req.body;
+  const { _id } = req.body;
 
   try {
-    await UsersModel.findByIdAndDelete(id);
+    await UsersModel.findByIdAndDelete(_id);
 
     res
       .status(200)
