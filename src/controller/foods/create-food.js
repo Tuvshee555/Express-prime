@@ -1,11 +1,12 @@
 import { FoodModel } from "../../modules/food.model.js";
 export const createFood = async (req, res) => {
-  const { foodName, price, Image, ingredients, address, category } = req.body;
+  const { foodName, price, image, ingredients, address, category } = req.body;
+
   try {
     const Foods = new FoodModel({
       foodName: foodName,
       price: price,
-      Image: Image,
+      image: image,
       address: address,
       ingredients: ingredients,
     });

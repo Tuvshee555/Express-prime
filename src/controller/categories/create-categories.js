@@ -4,7 +4,9 @@ export const createCategories = async (req, res) => {
   const { categoryName } = req.body;
 
   if (!categoryName || !categoryName.trim()) {
-    return res.status(400).json({ success: false, message: "Category name is empty!" });
+    return res
+      .status(400)
+      .json({ success: false, message: "Category name is empty!" });
   }
 
   try {
@@ -13,9 +15,11 @@ export const createCategories = async (req, res) => {
     await category.save();
 
     const rawCategoryData = await CategoriesModel.find();
-    res.status(200).json(rawCategoryData)
+    res.status(200).json(rawCategoryData);
   } catch (error) {
     console.error("Error creating category:", error);
-    res.status(500).json({ success: false, message: "Error creating category" });
+    res
+      .status(500)
+      .json({ success: false, message: "Error creating category" });
   }
 };
