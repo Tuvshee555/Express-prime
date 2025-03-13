@@ -1,14 +1,14 @@
 import { FoodModel } from "../../modules/food.model.js";
 export const createFood = async (req, res) => {
-  const { foodName, price, image, ingredients, address, category } = req.body;
+  const { foodName, price, image, ingredients, category } = req.body;
 
   try {
     const Foods = new FoodModel({
       foodName: foodName,
       price: price,
       image: image,
-      address: address,
       ingredients: ingredients,
+      category : category
     });
     Foods.save();
     const rawFooddata = await FoodModel.find();
