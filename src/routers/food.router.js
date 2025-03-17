@@ -7,6 +7,6 @@ import { updateFood } from "../controller/foods/update-food.js";
 export const FoodRouter = Router();
 
 FoodRouter.post("/", createFood);
-FoodRouter.delete("/", deleteFood);
+FoodRouter.delete("/:_id", deleteFood);
 FoodRouter.get("/", getFood);
 FoodRouter.put("/", updateFood);

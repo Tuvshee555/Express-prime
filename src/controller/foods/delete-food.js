@@ -1,6 +1,6 @@
 import { FoodModel } from "../../modules/food.model.js";
 export const deleteFood = async (req, res) => {
-  const { _id } = req.body;
+  const { _id } = req.params;
 
   try {
     await FoodModel.findByIdAndDelete(_id);

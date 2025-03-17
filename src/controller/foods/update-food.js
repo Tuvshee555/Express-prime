@@ -1,20 +1,28 @@
 import { FoodModel } from "../../modules/food.model.js";
+
 export const updateFood = async (req, res) => {
   const { _id, foodName, price, image, ingredients, category } = req.body;
+
   try {
     const updatedFood = await FoodModel.findByIdAndUpdate(
-      { _id: _id },
+      _id, 
       {
-        foodName: foodName,
-        price: price,
-        image: image,
-        ingredients: ingredients,
-        category: category
-      }
+        foodName,
+        price,
+        ...(image && { image }),
+        ingredients,
+        category
+      },
+      { new: true } 
     );
-    res.status(202).send(updatedFood);
-    
+
+    if (!updatedFood) {
+      return res.status(404).json({ message: "Food item not found" });
+    }
+
+    res.status(200).json(updatedFood);
   } catch (error) {
-    res.status(500).send(`Error while updating food ${error}`);
+    console.error("Error while updating food:", error);
+    res.status(500).json({ message: "Error while updating food", error });
   }
 };
