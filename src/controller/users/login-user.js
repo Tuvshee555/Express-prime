@@ -1,4 +1,4 @@
-import { compare } from "bcrypt";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { UsersModel } from "../../modules/users.model.js";
 
@@ -22,7 +22,11 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    const passwordMatches = await compare(password, user.password);
+    console.log("Stored Hashed Password:", user.password);
+
+    const passwordMatches = await bcrypt.compare(password, user.password);
+    console.log("Password Match:", passwordMatches);
+
     if (!passwordMatches) {
       return res.status(400).json({
         success: false,
