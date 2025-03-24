@@ -5,7 +5,7 @@ export const createUser = async (req, res) => {
   const { email, password, phonenumber, address, role } = req.body;
 
   try {
-    const hashedPassword = await hash(password, 10);
+    // const hashedPassword = await hash(password, 10);
     console.log(hashedPassword);
 
     const user = new UsersModel({
