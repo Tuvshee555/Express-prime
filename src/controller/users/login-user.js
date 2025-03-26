@@ -14,19 +14,14 @@ export const loginUser = async (req, res) => {
 
   try {
     const user = await UsersModel.findOne({ email });
-
-    if (!user || !user.password) {
+    if (!user) {
       return res.status(400).json({
         success: false,
         message: "This account does not exist!",
       });
     }
 
-    console.log("Stored Hashed Password:", user.password);
-
     const passwordMatches = await bcrypt.compare(password, user.password);
-    console.log("Password Match:", passwordMatches);
-
     if (!passwordMatches) {
       return res.status(400).json({
         success: false,
@@ -34,17 +29,10 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    if (!user) {
-      return res.status(403).json({
-        success: false,
-        message: "Please verify your email before logging in.",
-      });
-    }
-
     // Generate JWT token
     const token = jwt.sign(
       { userId: user._id, role: user.role },
-      "your_secret_key",
+      "your_secret_key", 
       { expiresIn: "1h" }
     );
 
@@ -59,7 +47,7 @@ export const loginUser = async (req, res) => {
     });
   } catch (error) {
     console.error("Login error:", error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Server error",
       error: error.message,

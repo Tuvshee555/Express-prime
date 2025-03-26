@@ -4,26 +4,46 @@ import { UsersModel } from "../../modules/users.model.js";
 export const createUser = async (req, res) => {
   const { email, password, phonenumber, address, role } = req.body;
 
+  if (!email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: "All fields are required!",
+    });
+  }
+
   try {
-    // const hashedPassword = await hash(password, 10);
-    console.log(hashedPassword);
+    const existingUser = await UsersModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: "User with this email already exists!",
+      });
+    }
+
+    const hashedPassword = await hash(password, 10);
+    console.log("hashed password:", hashedPassword);
 
     const user = new UsersModel({
-      email: email,
+      email,
       password: hashedPassword,
-      phonenumber: phonenumber,
-      address: address, 
-      role: role,
+      phonenumber,
+      address,
+      role,
     });
 
     const newUser = await user.save();
 
-    res
-      .status(201)
-      .json({ success: true, message: "User created successfully!", newUser });
+    return res.status(201).json({
+      success: true,
+      message: "User created successfully!",
+      newUser, 
+    });
   } catch (error) {
     console.error("Error creating user:", error);
-    res.status(500).json({ success: false, message: "Error creating user" });
+    return res.status(500).json({
+      success: false,
+      message: "Error creating user",
+      error: error.message,
+    });
   }
 };
-             
