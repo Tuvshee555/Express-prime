@@ -1,22 +1,13 @@
 import { UsersModel } from "../../modules/users.model.js";
 
 export const updateUser = async (req, res) => {
-  const { _id, email, password, phonenumber, address, role } = req.body;
-
-  if (!_id) {
-    return res.status(400).json({ success: false, message: "User ID is required!" });
-  }
+  const userData = req.body;
+  const {id} = req.params
 
   try {
     const updatedUser = await UsersModel.findByIdAndUpdate(
-      _id, 
-      {
-        email,
-        password,
-        phonenumber,
-        address,
-        role,
-      },
+      id,
+      userData,
       { new: true } 
     );
 
