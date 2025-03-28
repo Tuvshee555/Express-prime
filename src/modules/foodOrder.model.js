@@ -11,6 +11,8 @@ const foodOrderSchema = new mongoose.Schema({
     default: "PENDING",
     require: true,
   },
+  createdAt: { type: Date, default: Date.now },
+  // _id: {type: String, require: true}
 });
 
 export const FoodOrderModel = mongoose.model("foodOrder", foodOrderSchema);

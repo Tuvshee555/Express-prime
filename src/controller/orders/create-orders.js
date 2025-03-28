@@ -1,12 +1,14 @@
 import { FoodOrderModel } from "../../modules/foodOrder.model.js";
 
 export const createFoodOrder = async (req, res) => {
-  const { user, totalprice, Image, foodOrderItems, status } = req.body;
+  const { _id, totalprice, Image, foodOrderItems, status } = req.body;
   try {
     const FoodOrder = new FoodOrderModel({
       totalprice: totalprice,
       Image: Image,
       status: status,
+      // _id: _id
+      
 
     });
     FoodOrder.save();
