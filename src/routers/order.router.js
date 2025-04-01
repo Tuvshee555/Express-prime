@@ -8,5 +8,5 @@ import { validateFoodOrder  } from "../middleware/users/validate-orders.js";
 export const orderRouter = Router()
 orderRouter.post("/", createFoodOrder)
 orderRouter.delete("/", validateFoodOrder, deleteFoodOrder)
-orderRouter.get("/", getFoodOrder)
+orderRouter.get("/:id", getFoodOrder)
 orderRouter.put("/", updatedFoodOrder)

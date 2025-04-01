@@ -1,15 +1,14 @@
 import { FoodOrderModel } from "../../modules/foodOrder.model.js";
 
 export const createFoodOrder = async (req, res) => {
-  const { _id, totalprice, Image, foodOrderItems, status } = req.body;
+  const { totalPrice, userId, items } = req.body;
+  console.log(req.body);
+
   try {
     const FoodOrder = new FoodOrderModel({
-      totalprice: totalprice,
-      Image: Image,
-      status: status,
-      // _id: _id
-      
-
+      totalprice: totalPrice,
+      user: userId,
+      foodOrderItems: items,
     });
     FoodOrder.save();
     const rawFoodOrderdata = await FoodOrderModel.find();
@@ -17,6 +16,8 @@ export const createFoodOrder = async (req, res) => {
     res.status(200).send(rawFoodOrderdata);
   } catch (error) {
     console.error("Error creating FoodOrder:", error);
-    res.status(500).json({ success: false, message: "Error creating FoodOrder" });
+    res
+      .status(500)
+      .json({ success: false, message: "Error creating FoodOrder" });
   }
 };

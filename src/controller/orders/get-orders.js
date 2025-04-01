@@ -2,10 +2,21 @@ import { FoodOrderModel } from "../../modules/foodOrder.model.js";
 
 export const getFoodOrder = async (req, res) => {
   try {
-    const foodOrder = await FoodOrderModel.find();
+    const { _id } = req.params;
+    
+    if (!_id) {
+      return res.status(400).send("User ID is required");
+    }
 
-    res.status(200).send(foodOrder);
+    const foodOrders = await FoodOrderModel.find({ user: _id });
+
+    if (!foodOrders || foodOrders.length === 0) {
+      return res.status(404).send("No food orders found for this user");
+    }
+
+    res.status(200).send(foodOrders);
   } catch (error) {
-    res.status(500).send(`Error while getting food order ${error}`);
+    console.error("Error while getting food order:", error);
+    res.status(500).send(`Error while getting food order: ${error.message}`);
   }
 };
