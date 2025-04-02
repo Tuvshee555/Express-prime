@@ -3,10 +3,9 @@ import mongoose from "mongoose";
 const foodOrderSchema = new mongoose.Schema({
   user: { type: mongoose.Types.ObjectId, require: true, ref: "users" },
   totalprice: { type: Number, require: true },
-  // Image: { type: String, require: true },
   foodOrderItems: [
     {
-      foodId: { type: mongoose.Types.ObjectId, ref: "foods", require: true },
+      foodId: { type: mongoose.Types.ObjectId, ref: "FoodModel", require: true },
       quantity: { type: Number, require: true },
     },
   ],
@@ -17,7 +16,7 @@ const foodOrderSchema = new mongoose.Schema({
     require: true,
   },
   createdAt: { type: Date, default: Date.now },
-  // _id: {type: String, require: true}
+  // location: {type: String, require: true},
 });
 
 export const FoodOrderModel = mongoose.model("foodOrder", foodOrderSchema);
