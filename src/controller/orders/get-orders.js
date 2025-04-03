@@ -9,7 +9,7 @@ export const getFoodOrder = async (req, res) => {
     }
 
     const foodOrders = await FoodOrderModel.find({ user: _id })
-      .populate({path:"foodOrderItems.foodId", model:"food" })
+      .populate({ path: "foodOrderItems.foodId", model: "food" })
       .exec();
 
     if (!foodOrders || foodOrders.length === 0) {
