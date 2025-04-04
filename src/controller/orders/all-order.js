@@ -4,6 +4,7 @@ export const getAllOrder = async (req, res) => {
   try {
     const orders = await FoodOrderModel.find()
       .populate({ path: "user", model: "users" })
+      .populate({ path: "foodOrderItems.foodId", model: "food" })
       .exec();
 
     res.status(200).send(orders);

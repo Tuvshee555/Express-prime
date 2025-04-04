@@ -10,5 +10,6 @@ export const orderRouter = Router();
 orderRouter.post("/", createFoodOrder);
 orderRouter.delete("/", validateFoodOrder, deleteFoodOrder);
 orderRouter.get("/:_id", getFoodOrder);
-orderRouter.put("/", updatedFoodOrder);
+orderRouter.patch("/:_id", updatedFoodOrder);
+
 orderRouter.get("/", getAllOrder);
