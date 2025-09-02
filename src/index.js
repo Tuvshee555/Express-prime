@@ -11,10 +11,11 @@ dotenv.config();
 
 import cors from "cors";
 
-// const mongoURI =
-// "mongodb+srv://tuvshee894:pMGouSOSywNnqc7d@cluster0.vds8d.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0";
+// const mongoURI = "mongodb+srv://ganturtuvshinsaihan:wXrLlB7dTEaiffSH@cluster0.b96aswa.mongodb.net/"
 
 const mongoURI = process.env.DATA_BASE_CONNECT_URL;
+
+
 
 const connectDb = async () => {
   try {
