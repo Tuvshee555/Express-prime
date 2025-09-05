@@ -11,9 +11,9 @@ dotenv.config();
 
 import cors from "cors";
 
-// const mongoURI = "mongodb+srv://ganturtuvshinsaihan:wXrLlB7dTEaiffSH@cluster0.b96aswa.mongodb.net/"
+const mongoURI = "mongodb+srv://ganturtuvshinsaihan:wXrLlB7dTEaiffSH@cluster0.b96aswa.mongodb.net/"
 
-const mongoURI = process.env.DATA_BASE_CONNECT_URL;
+// const mongoURI = process.env.DATA_BASE_CONNECT_URL;
 
 
 
