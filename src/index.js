@@ -11,7 +11,7 @@ import cors from "cors";
 dotenv.config();
 
 // Use environment variable for MongoDB
-const mongoURI = process.env.DATA_BASE_CONNECT_URL;
+const mongoURI = process.env.DATA_BASE_CONNECT_URL || "mongodb+srv://ganturtuvshinsaihan:wXrLlB7dTEaiffSH@cluster0.b96aswa.mongodb.net/your_db_name?retryWrites=true&w=majority"
 
 const connectDb = async () => {
   try {
@@ -28,6 +28,7 @@ connectDb();
 const app = express();
 // Use Render's dynamic port
 const port = process.env.PORT || 4000;
+
 
 app.use(express.json());
 app.use(cors());
