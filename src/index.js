@@ -6,16 +6,12 @@ import { FoodRouter } from "./routers/Food.router.js";
 import { categoryRouter } from "./routers/category.router.js";
 import { items } from "./routers/items.router.js";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 
-import cors from "cors";
-
-const mongoURI = "mongodb+srv://ganturtuvshinsaihan:wXrLlB7dTEaiffSH@cluster0.b96aswa.mongodb.net/"
-
-// const mongoURI = process.env.DATA_BASE_CONNECT_URL;
-
-
+// Use environment variable for MongoDB
+const mongoURI = process.env.DATA_BASE_CONNECT_URL;
 
 const connectDb = async () => {
   try {
@@ -30,7 +26,8 @@ const connectDb = async () => {
 connectDb();
 
 const app = express();
-const port = 4000;
+// Use Render's dynamic port
+const port = process.env.PORT || 4000;
 
 app.use(express.json());
 app.use(cors());
@@ -41,5 +38,5 @@ app.use("/category", categoryRouter);
 app.use("/items", items);
 
 app.listen(port, () => {
-  console.log(`🚀 Server running at http://localhost:${port}`);
+  console.log(`🚀 Server running on port ${port}`);
 });
