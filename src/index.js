@@ -39,5 +39,5 @@ app.use("/category", categoryRouter);
 app.use("/items", items);
 
 app.listen(port, () => {
-  console.log(`🚀 Server running on port ${port}`);
+ console.log(`🚀 Server running at http://localhost:${port}`);
 });
