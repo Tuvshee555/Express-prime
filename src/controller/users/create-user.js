@@ -2,17 +2,21 @@ import { hash } from "bcrypt";
 import { UsersModel } from "../../modules/users.model.js";
 
 export const createUser = async (req, res) => {
-  const { email, password, phonenumber, address, role } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({
-      success: false,
-      message: "All fields are required!",
-    });
-  }
-
   try {
-    const existingUser = await UsersModel.findOne({ email });
+    const { email, password, phonenumber, address, role } = req.body;
+
+    if (!email || !password || !role) {
+      return res.status(400).json({
+        success: false,
+        message: "Email, password, and role are required!",
+      });
+    }
+
+    // Normalize email
+    const normalizedEmail = email.toLowerCase();
+
+    // Check if user already exists
+    const existingUser = await UsersModel.findOne({ email: normalizedEmail });
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -20,23 +24,28 @@ export const createUser = async (req, res) => {
       });
     }
 
+    // Hash password
     const hashedPassword = await hash(password, 10);
-    console.log("hashed password:", hashedPassword);
 
+    // Create user
     const user = new UsersModel({
-      email,
+      email: normalizedEmail,
       password: hashedPassword,
       phonenumber,
       address,
       role,
     });
 
-    const newUser = await user.save();
+    await user.save();
 
     return res.status(201).json({
       success: true,
       message: "User created successfully!",
-      newUser, 
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
     console.error("Error creating user:", error);

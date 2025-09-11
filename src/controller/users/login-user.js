@@ -1,27 +1,37 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { UsersModel } from "../../modules/users.model.js";
+import bcrypt from "bcrypt"; 
+import jwt from "jsonwebtoken"; 
+
 
 export const loginUser = async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({
-      success: false,
-      message: "Email and password are required!",
-    });
-  }
-
+  
   try {
-    const user = await UsersModel.findOne({ email });
-    if (!user) {
+    const { email, password, role } = req.body;
+  
+
+  
+    if (!email || !password || !role) {
+      return res.status(400).json({
+        success: false,
+        message: "Email, password, role are required!",
+      });
+    }
+
+    const normalizedEmail = email.toLowerCase()
+
+
+    //Compare passowrd
+    const existingUser = await UsersModel.findOne({ email: normalizedEmail });
+    if (!existingUser) {
       return res.status(400).json({
         success: false,
         message: "This account does not exist!",
       });
     }
 
-    const passwordMatches = await bcrypt.compare(password, user.password);
+
+    // Check password
+    const passwordMatches = await bcrypt.compare(password, existingUser.password);
     if (!passwordMatches) {
       return res.status(400).json({
         success: false,
@@ -29,10 +39,18 @@ export const loginUser = async (req, res) => {
       });
     }
 
+    // ✅ Check role match
+    if (existingUser.role !== role) {
+      return res.status(403).json({
+        success: false,
+        message: `This account does not have ${user} access!`,
+      });
+    }
+
     // Generate JWT token
     const token = jwt.sign(
-      { userId: user._id, role: user.role },
-      "your_secret_key",
+      { userId: existingUser._id, role: existingUser.role },
+      process.env.JWT_SECRET || "your_very_secure_secret_key",
       { expiresIn: "78h" }
     );
 
@@ -40,8 +58,10 @@ export const loginUser = async (req, res) => {
       success: true,
       message: "Logged in successfully!",
       user: {
-        email: user.email,
-        role: user.role,
+        id: existingUser._id,
+        email: existingUser.email,
+        role: existingUser.role,
+
       },
       token,
     });
