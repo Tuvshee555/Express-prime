@@ -1,37 +1,33 @@
 import express from "express";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+import cors from "cors";
+
 import { userRouter } from "./routers/user.router.js";
 import { orderRouter } from "./routers/Order.router.js";
 import { FoodRouter } from "./routers/Food.router.js";
 import { categoryRouter } from "./routers/category.router.js";
 import { items } from "./routers/items.router.js";
-import dotenv from "dotenv";
-import cors from "cors";
 
 dotenv.config();
 
-// Use environment variable for MongoDB
-const mongoURI = process.env.DATA_BASE_CONNECT_URL || "mongodb+srv://ganturtuvshinsaihan:wXrLlB7dTEaiffSH@cluster0.b96aswa.mongodb.net/your_db_name?retryWrites=true&w=majority"
-
-const connectDb = async () => {
-  try {
-    await mongoose.connect(mongoURI);
-    console.log("Successfully connected to MongoDB");
-  } catch (error) {
-    console.error("MongoDB connection error:", error);
-    process.exit(1);
-  }
-};
-
-connectDb();
-
 const app = express();
-// Use Render's dynamic port
 const port = process.env.PORT || 4000;
 
+const mongoURI = process.env.DATA_BASE_CONNECT_URL;
 
-app.use(express.json());
+mongoose
+  .connect(mongoURI)
+  .then(() => console.log("✅ Successfully connected to MongoDB"))
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err);
+    process.exit(1);
+  });
+
 app.use(cors());
+app.use(express.json());
+
+// Routes
 app.use("/food", FoodRouter);
 app.use("/order", orderRouter);
 app.use("/user", userRouter);
@@ -39,5 +35,5 @@ app.use("/category", categoryRouter);
 app.use("/items", items);
 
 app.listen(port, () => {
- console.log(`🚀 Server running at http://localhost:${port}`);
+  console.log(`🚀 Server running at http://localhost:${port}`);
 });
