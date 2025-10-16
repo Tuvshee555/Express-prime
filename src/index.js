@@ -13,7 +13,7 @@ import { qpayRouter } from "./routers/qpay.router.js";
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT
 
 const mongoURI = process.env.DATA_BASE_CONNECT_URL;
 
