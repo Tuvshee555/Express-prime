@@ -8,6 +8,7 @@ import { orderRouter } from "./routers/Order.router.js";
 import { FoodRouter } from "./routers/Food.router.js";
 import { categoryRouter } from "./routers/category.router.js";
 import { items } from "./routers/items.router.js";
+import { qpayRouter } from "./routers/qpay.router.js";
 
 dotenv.config();
 
@@ -27,12 +28,13 @@ mongoose
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// Routers
 app.use("/food", FoodRouter);
 app.use("/order", orderRouter);
 app.use("/user", userRouter);
 app.use("/category", categoryRouter);
 app.use("/items", items);
+app.use("/qpay", qpayRouter);
 
 app.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);
