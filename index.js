@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 
-import { userRouter } from "./src/routers/user.router.js";
-import { orderRouter } from "./src/routers/Order.router.js";
-import { FoodRouter } from "./src/routers/Food.router.js";
-import { categoryRouter } from "./src/routers/category.router.js";
-import { items } from "./src/routers/items.router.js";
-import { qpayRouter } from "./src/routers/qpay.router.js";
+import { userRouter } from "./routers/user.router.js";
+import { orderRouter } from "./routers/Order.router.js";
+import { FoodRouter } from "./routers/Food.router.js";
+import { categoryRouter } from "./routers/category.router.js";
+import { items } from "./routers/items.router.js";
+import { qpayRouter } from "./routers/qpay.router.js";
 
 dotenv.config();
 
