@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import { userRouter } from "./routers/user.router.js";
-import { FoodRouter } from "./routers/Food.router.js";
+import { foodRouter } from "./routers/food.router.js";
 import { categoryRouter } from "./routers/category.router.js";
 import { items } from "./routers/items.router.js";
 import { qpayRouter } from "./routers/qpay.router.js";
@@ -30,7 +30,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routers
-app.use("/food", FoodRouter);
+app.use("/food", foodRouter);
 app.use("/order", orderRouter);
 app.use("/user", userRouter);
 app.use("/category", categoryRouter);
