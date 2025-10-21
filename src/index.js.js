@@ -2,7 +2,6 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import { userRouter } from "./routers/user.router.js";
 import { foodRouter } from "./routers/food.router.js";
@@ -11,12 +10,9 @@ import { items } from "./routers/items.router.js";
 import { qpayRouter } from "./routers/qpay.router.js";
 import { orderRouter } from "./routers/Order.router.js";
 
-
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT
-
 const mongoURI = process.env.DATA_BASE_CONNECT_URL;
 
 mongoose
@@ -38,8 +34,16 @@ app.use("/category", categoryRouter);
 app.use("/items", items);
 app.use("/qpay", qpayRouter);
 
+// ✅ Add a test route to confirm deployment works
+app.get("/", (req, res) => {
+  res.status(200).send("Express Prime API is running 🚀");
+});
+
+// ❗ Export app for Vercel (no app.listen)
+export default app;
+
+
+
 // app.listen(port, () => {
 //   console.log(`🚀 Server running at http://localhost:${port}`);
 // });
-
-export default app;
