@@ -38,6 +38,8 @@ app.use("/category", categoryRouter);
 app.use("/items", items);
 app.use("/qpay", qpayRouter);
 
-app.listen(port, () => {
-  console.log(`🚀 Server running at http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`🚀 Server running at http://localhost:${port}`);
+// });
+
+export default app;
