@@ -1,7 +1,7 @@
 import axios from "axios";
 import base64 from "base-64";
 import dotenv from "dotenv";
-import { Payment } from "../modules/payment.js";
+import { Payment } from "../../modules/payment.js";
 
 dotenv.config();
 

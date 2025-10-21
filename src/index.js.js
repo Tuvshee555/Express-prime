@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import { userRouter } from "./routers/user.router.js";
 import { foodRouter } from "./routers/food.router.js";

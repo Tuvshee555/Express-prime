@@ -8,6 +8,9 @@ import { validateUserId } from "../middleware/users/validate-user-id.js";
 import { forgotPassword } from "../controller/users/forgot-password.js";
 import { resetPassword } from "../controller/users/reset-password.js";
 import { googleAuth } from "../controller/users/google-auth.js";
+import { facebookAuth } from "../controller/users/facebook-auth.js";
+
+
 
 export const userRouter = express.Router();
 
@@ -24,3 +27,6 @@ userRouter.post("/reset-password", resetPassword);
 
 // Google OAuth
 userRouter.post("/auth/google", googleAuth);
+
+// Facebook OAuth
+userRouter.post("/auth/facebook", facebookAuth);

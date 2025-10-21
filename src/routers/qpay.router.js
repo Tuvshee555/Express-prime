@@ -1,5 +1,5 @@
 import express from "express";
-import { checkPayment, createInvoice, webhook } from "../controller/qpay.controller.js";
+import { checkPayment, createInvoice, webhook } from "../controller/users/qpay.controller.js";
 
 const router = express.Router();
 
