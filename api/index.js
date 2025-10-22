@@ -1,37 +1,63 @@
 import express from "express";
 import cors from "cors";
 import serverless from "serverless-http";
+import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 // Routers
 import { userRouter } from "../src/routers/user.router.js";
 import { foodRouter } from "../src/routers/food.router.js";
-// ...other routers
+import { categoryRouter } from "../src/routers/category.router.js";
+import { items } from "../src/routers/items.router.js";
+import { qpayRouter } from "../src/routers/qpay.router.js";
+import { orderRouter } from "../src/routers/Order.router.js";
 import { connectDB } from "../src/db.js"; // <- import helper
 
 dotenv.config();
+
+const port = process.env.PORT || 4000;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// --- Connect to MongoDB safely on each request
 app.use(async (req, res, next) => {
   try {
-    await connectDB(); // ensure DB is connected
+    await connectDB();
     next();
   } catch (err) {
     res.status(500).send("Database connection failed");
   }
 });
 
-// --- Routers
-app.use("/user", userRouter);
-app.use("/food", foodRouter);
-// ...other routers
 
-// Test route
+dotenv.config();
+
+
+const mongoURI = process.env.DATA_BASE_CONNECT_URL;
+mongoose
+  .connect(mongoURI)
+  .then(() => console.log("✅ Successfully connected to MongoDB"))
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err);
+    process.exit(1);
+  });
+
+app.use(cors());
+app.use(express.json());
+
+// --- Routers
+app.use("/food", foodRouter);
+app.use("/order", orderRouter);
+app.use("/user", userRouter);
+app.use("/category", categoryRouter);
+app.use("/items", items);
+app.use("/qpay", qpayRouter);
+
 app.get("/", (req, res) => res.send("Express Prime API is running 🚀"));
 
 // Export for Vercel
 export default serverless(app);
+app.listen(port, () => {
+  console.log(`🚀 Server running at http://localhost:${port}`);
+});
