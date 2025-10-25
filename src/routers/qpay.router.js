@@ -1,10 +1,13 @@
 import express from "express";
-import { checkPayment, createInvoice, webhook } from "../controller/users/qpay.controller.js";
+import { createInvoice, checkPayment, webhook } from "../controller/users/qpay.controller.js";
 
-const router = express.Router();
+export const qpayRouter = express.Router();
 
-router.post("/create", createInvoice);   // Create invoice and return QR
-router.post("/check", checkPayment);    // Check status manually (optional)
-router.post("/webhook", webhook);       // QPay webhook for automatic update
+qpayRouter.post("/create", createInvoice);   // Create invoice & QR
+qpayRouter.post("/check", checkPayment);     // Check invoice status
+qpayRouter.post("/webhook", webhook);        // QPay webhook callback
 
-export const qpayRouter = router;
+// Optional route for testing
+qpayRouter.get("/", (req, res) => {
+  res.json({ message: "QPay route connected ✅" });
+});

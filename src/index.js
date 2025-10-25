@@ -15,6 +15,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 4000;
 
+// MongoDB Connection
 mongoose.connect(process.env.DATA_BASE_CONNECT_URL)
   .then(() => console.log("✅ Successfully connected to MongoDB"))
   .catch(err => {
@@ -31,9 +32,8 @@ app.use("/order", orderRouter);
 app.use("/user", userRouter);
 app.use("/category", categoryRouter);
 app.use("/items", items);
-app.use("/qpay", qpayRouter);
+app.use("/qpay", qpayRouter); // ✅ QPay router
 
-// Test route
-app.get("/", (req, res) => res.send("Express Prime API is running 🚀"));
+app.get("/", (req, res) => res.send("🚀 QPay Backend Running"));
 
 app.listen(port, () => console.log(`🚀 Server running at http://localhost:${port}`));

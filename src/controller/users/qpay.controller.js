@@ -1,28 +1,25 @@
 import axios from "axios";
-import base64 from "base-64";
 import dotenv from "dotenv";
 import { Payment } from "../../modules/payment.js";
 
 dotenv.config();
 
-const CLIENT_ID = process.env.QPAY_CLIENT_ID;
-const CLIENT_SECRET = process.env.QPAY_CLIENT_SECRET;
-const QPAY_BASE_URL = "https://merchant-sandbox.qpay.mn/v2"; // sandbox
+const QPAY_BASE_URL = process.env.QPAY_BASE_URL;
 
-if (!CLIENT_ID || !CLIENT_SECRET) {
-  console.error("❌ QPay credentials missing!");
-}
-
-// Get access token
+// ✅ Step 1: Get Access Token
 async function getAccessToken() {
-  const authHeader = "Basic " + base64.encode(`${CLIENT_ID}:${CLIENT_SECRET}`);
-  const res = await axios.post(`${QPAY_BASE_URL}/auth/token`, {}, {
-    headers: { Authorization: authHeader },
-  });
+  const res = await axios.post(
+    `${QPAY_BASE_URL}/auth/token`,
+    {
+      username: process.env.QPAY_USERNAME,
+      password: process.env.QPAY_PASSWORD,
+    },
+    { headers: { "Content-Type": "application/json" } }
+  );
   return res.data.access_token;
 }
 
-// Create invoice
+// ✅ Step 2: Create Invoice
 export const createInvoice = async (req, res) => {
   try {
     const { order_id, amount } = req.body;
@@ -31,7 +28,7 @@ export const createInvoice = async (req, res) => {
     const invoiceRes = await axios.post(
       `${QPAY_BASE_URL}/invoice`,
       {
-        invoice_code: `ORDER_${Date.now()}`,
+        invoice_code: "DELIVERY_APP_INVOICE", // from QPay email
         sender_invoice_no: order_id,
         invoice_description: `Payment for order ${order_id}`,
         amount,
@@ -41,6 +38,7 @@ export const createInvoice = async (req, res) => {
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
+    // Save payment in MongoDB
     const payment = await Payment.create({
       invoice_id: invoiceRes.data.invoice_id,
       order_id,
@@ -60,7 +58,7 @@ export const createInvoice = async (req, res) => {
   }
 };
 
-// Check payment
+// ✅ Step 3: Check Payment
 export const checkPayment = async (req, res) => {
   try {
     const { invoice_id } = req.body;
@@ -84,7 +82,7 @@ export const checkPayment = async (req, res) => {
   }
 };
 
-// Webhook
+// ✅ Step 4: Webhook for auto update
 export const webhook = async (req, res) => {
   console.log("💰 QPay webhook received:", req.body);
   const { object_id, payment_status } = req.body;
